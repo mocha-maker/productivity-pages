@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Bookends — Timeline Protocol</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f6f2ec;
+    --warm: #e8ddd0;
+    --accent: #c44d2a;
+    --accent-soft: rgba(196,77,42,0.06);
+    --teal: #2a7a6e;
+    --teal-soft: rgba(42,122,110,0.08);
+    --gold: #b8860b;
+    --plum: #6b3a6b;
+    --plum-soft: rgba(107,58,107,0.06);
+    --morning-a: #e8622f;
+    --morning-b: #c44d2a;
+    --evening-a: #3d2a6b;
+    --evening-b: #6b3a6b;
+    --line-morning: var(--accent);
+    --line-evening: var(--plum);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ─── HEADER ─── */
+  .page-header {
+    text-align: center;
+    padding: 3.5rem 2rem 1.5rem;
+  }
+
+  .page-header .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .page-header h1 em { font-style: italic; color: var(--accent); }
+
+  .page-header .sub {
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    max-width: 500px;
+    margin-inline: auto;
+  }
+
+  /* ─── CONTAINER ─── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  /* ─── SECTION CARD ─── */
+  .section-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: white;
+  }
+
+  .card-top {
+    padding: 1.75rem 2.25rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .card-top.morning { background: linear-gradient(135deg, var(--morning-a), var(--morning-b)); }
+  .card-top.evening { background: linear-gradient(135deg, var(--evening-a), var(--evening-b)); }
+
+  .card-top::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background: repeating-linear-gradient(90deg, white 0 1px, transparent 1px 28px);
+    pointer-events: none;
+  }
+
+  .card-top-left { position: relative; }
+
+  .card-top .duration {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.35rem;
+  }
+
+  .card-top h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .card-top .purpose {
+    font-size: 0.8rem;
+    opacity: 0.65;
+    margin-top: 0.3rem;
+    position: relative;
+    max-width: 440px;
+  }
+
+  /* ─── START TIME INPUT ─── */
+  .time-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    padding: 0.5rem 0.9rem;
+    backdrop-filter: blur(4px);
+    flex-shrink: 0;
+  }
+
+  .time-input-wrap label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .time-input-wrap input[type="time"] {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 500;
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    width: 7.5rem;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .time-input-wrap input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-strip {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 2.25rem;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    background: rgba(0,0,0,0.015);
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 5px;
+    border-radius: 5px;
+    background: #eee;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-fill.mf { background: linear-gradient(90deg, var(--morning-a), var(--morning-b)); }
+  .progress-fill.ef { background: linear-gradient(90deg, var(--evening-a), var(--evening-b)); }
+
+  .progress-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: #aaa;
+    min-width: 3.5rem;
+    text-align: right;
+  }
+
+  /* ─── TIMELINE BODY ─── */
+  .timeline-body {
+    padding: 2rem 2.25rem 2.25rem;
+  }
+
+  /* Phase label */
+  .phase-marker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    margin-left: 86px;
+    padding: 0.35rem 0;
+  }
+
+  .phase-marker.morning-phase { color: var(--accent); }
+  .phase-marker.evening-phase { color: var(--plum); }
+
+  /* ─── TIMELINE ROW ─── */
+  .tl-row {
+    display: flex;
+    align-items: stretch;
+    min-height: 72px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    position: relative;
+  }
+
+  .tl-row:last-child .tl-line::after { display: none; }
+
+  /* Time column */
+  .tl-time {
+    width: 70px;
+    min-width: 70px;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 0.95rem;
+    justify-content: flex-end;
+    padding-right: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #999;
+    transition: color 0.25s;
+  }
+
+  .tl-row:hover .tl-time { color: #555; }
+  .tl-row.checked .tl-time { color: #bbb; }
+
+  /* Line + dot column */
+  .tl-line {
+    width: 32px;
+    min-width: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 0.95rem;
+  }
+
+  .tl-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2.5px solid #ccc;
+    background: var(--paper);
+    z-index: 2;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .tl-dot svg {
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .tl-row.checked .tl-dot svg { opacity: 1; }
+
+  .morning-section .tl-row:hover .tl-dot { border-color: var(--accent); }
+  .evening-section .tl-row:hover .tl-dot { border-color: var(--plum); }
+
+  .morning-section .tl-row.checked .tl-dot {
+    border-color: var(--teal);
+    background: var(--teal);
+  }
+
+  .evening-section .tl-row.checked .tl-dot {
+    border-color: var(--teal);
+    background: var(--teal);
+  }
+
+  .tl-line::after {
+    content: '';
+    flex: 1;
+    width: 2px;
+    border-radius: 2px;
+    margin-top: 4px;
+    transition: background 0.3s;
+  }
+
+  .morning-section .tl-line::after { background: rgba(196,77,42,0.12); }
+  .evening-section .tl-line::after { background: rgba(107,58,107,0.12); }
+
+  .tl-row.checked .tl-line::after { background: rgba(42,122,110,0.25); }
+
+  /* Content column */
+  .tl-content {
+    flex: 1;
+    padding: 0.7rem 0 1.25rem 0.75rem;
+    transition: opacity 0.3s;
+  }
+
+  .tl-row.checked .tl-content { opacity: 0.4; }
+  .tl-row.checked .tl-title { text-decoration: line-through; }
+
+  .tl-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+
+  .tl-desc {
+    font-size: 0.78rem;
+    color: #777;
+    line-height: 1.6;
+    margin-top: 0.15rem;
+    max-width: 560px;
+  }
+
+  .tl-tags {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .tl-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+    padding: 0.18rem 0.5rem;
+    border-radius: 100px;
+  }
+
+  .tl-tag.dur { background: #f0f0f0; color: #888; }
+  .tl-tag.brain { background: rgba(42,122,110,0.1); color: var(--teal); }
+  .tl-tag.biz { background: var(--accent-soft); color: var(--accent); }
+  .tl-tag.adhd { background: rgba(184,134,11,0.1); color: var(--gold); }
+  .tl-tag.rest { background: var(--plum-soft); color: var(--plum); }
+
+  /* ─── TIP BOX ─── */
+  .tip-box {
+    margin: 0.75rem 0 0.5rem 86px;
+    padding: 0.9rem 1.15rem;
+    border-radius: 10px;
+    border-left: 3px solid var(--gold);
+    background: rgba(184,134,11,0.06);
+  }
+
+  .tip-box .tip-l {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+  }
+
+  .tip-box p {
+    font-size: 0.78rem;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .tip-box strong { color: #555; }
+
+  /* ─── RESET ─── */
+  .reset-row {
+    text-align: center;
+    padding-top: 0.25rem;
+  }
+
+  .reset-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid #ddd;
+    padding: 0.5rem 1.5rem;
+    border-radius: 100px;
+    color: #aaa;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 600px) {
+    .tl-time { width: 52px; min-width: 52px; font-size: 0.62rem; }
+    .tl-line { width: 26px; min-width: 26px; }
+    .phase-marker { margin-left: 64px; }
+    .tip-box { margin-left: 64px; }
+    .timeline-body { padding: 1.5rem 1.25rem; }
+    .card-top { padding: 1.5rem; }
+    .progress-strip { padding: 0.75rem 1.25rem; }
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: white; font-size: 12px; }
+    .section-card { break-inside: avoid; border: 1px solid #ccc; }
+    .card-top.morning { background: var(--accent) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card-top.evening { background: var(--plum) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tl-row.checked .tl-content { opacity: 1; }
+    .tl-row.checked .tl-dot { border-color: #999 !important; background: white !important; }
+    .reset-row, .progress-strip { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="label">Pre-Revenue Entrepreneur Edition</div>
+  <h1>Daily <em>Bookends</em></h1>
+  <p class="sub">Set your start time. The timeline adapts. Check items off as you go.</p>
+</div>
+
+<div class="container">
+
+  <!-- ════════════ MORNING ════════════ -->
+  <div class="section-card morning-section" id="morning-card">
+    <div class="card-top morning">
+      <div class="card-top-left">
+        <div class="duration">≈ 30 minutes · before you open email or socials</div>
+        <h2>Morning Ignition</h2>
+        <p class="purpose">Prime your neurology, name your #1 revenue move, and build an activation runway so deep work starts without friction.</p>
+      </div>
+      <div class="time-input-wrap">
+        <label for="morning-start">Start</label>
+        <input type="time" id="morning-start" value="06:30" onchange="recalcTimes('morning')">
+      </div>
+    </div>
+
+    <div class="progress-strip">
+      <div class="progress-bar"><div class="progress-fill mf" id="m-prog-fill"></div></div>
+      <div class="progress-pct" id="m-prog-txt">0 / 8</div>
+    </div>
+
+    <div class="timeline-body" id="morning-timeline">
+
+      <div class="phase-marker morning-phase">Phase 1 — Wake the Body</div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="0" data-dur="10">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">No phone for 10 minutes</div>
+          <div class="tl-desc">Leave it plugged in across the room. Checking messages first thing floods your brain with other people's priorities and spikes reactive cortisol. You need proactive cortisol.</div>
+          <div class="tl-tags"><span class="tl-tag adhd">Anti-Dopamine Drain</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="0" data-dur="5">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Sunlight + water + 20 reps of anything</div>
+          <div class="tl-desc">Step outside or stand at a bright window for 2–5 min. Drink a full glass of water. Do bodyweight squats, push-ups, or jumping jacks — just enough to signal "we're awake" to your nervous system.</div>
+          <div class="tl-tags"><span class="tl-tag dur">5 min</span><span class="tl-tag brain">Cortisol + Dopamine Sync</span></div>
+        </div>
+      </div>
+
+      <div class="phase-marker morning-phase">Phase 2 — Prime the Mind</div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="10" data-dur="3">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Identity statement + daily intention</div>
+          <div class="tl-desc">Write one sentence: "I am someone who ___." Then your intention for the day — not a to-do, but a way of being. ("Today I operate with calm urgency." / "Today I ship, not perfect.")</div>
+          <div class="tl-tags"><span class="tl-tag dur">3 min</span><span class="tl-tag brain">Prefrontal Activation</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="13" data-dur="2">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Gratitude anchor — one specific thing</div>
+          <div class="tl-desc">From yesterday, with a sensory detail. ("The quiet in my apartment at 7am with coffee by the window.") Specificity rewires your brain; generic gratitudes don't shift state.</div>
+          <div class="tl-tags"><span class="tl-tag dur">1 min</span><span class="tl-tag brain">Nervous System Regulation</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="15" data-dur="5">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">5-minute meditation or breathwork</div>
+          <div class="tl-desc">Box breathing (4-4-4-4) or a guided session. Non-negotiable for ADHD — the only daily practice proven to physically thicken your prefrontal cortex. Even 5 min counts.</div>
+          <div class="tl-tags"><span class="tl-tag dur">5 min</span><span class="tl-tag adhd">Executive Function Primer</span></div>
+        </div>
+      </div>
+
+      <div class="phase-marker morning-phase">Phase 3 — Aim the Business</div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="20" data-dur="3">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Name your #1 Revenue-Moving Action</div>
+          <div class="tl-desc">"If I could only do ONE thing today that moves me closer to revenue, what is it?" Pre-revenue means every day includes at least one action from: build product, talk to users, or sell.</div>
+          <div class="tl-tags"><span class="tl-tag dur">3 min</span><span class="tl-tag biz">Revenue-Critical</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="23" data-dur="3">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Set your Top 3 tasks (max)</div>
+          <div class="tl-desc">Your #1 plus two supporting tasks. Three feels achievable; ten feels paralyzing. Everything else lives on a backlog you don't look at until these are done.</div>
+          <div class="tl-tags"><span class="tl-tag dur">3 min</span><span class="tl-tag adhd">Anti-Overwhelm</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'morning')" data-offset="26" data-dur="4">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Pre-load your first deep work sprint</div>
+          <div class="tl-desc">Open the file/app/doc you'll start with. Set the visual timer. Queue the focus playlist. Remove every decision between "routine done" and "working" — the transition gap is where ADHD brains lose the whole morning.</div>
+          <div class="tl-tags"><span class="tl-tag dur">2 min</span><span class="tl-tag adhd">Activation Runway</span></div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-l">ADHD Founder Tip</div>
+        <p>Do this entire protocol <strong>before</strong> you open email, Slack, or social media. The second you check messages, your brain switches from commander mode to responder mode — and getting it back costs 20+ minutes of executive function you can't afford pre-revenue.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════ EVENING ════════════ -->
+  <div class="section-card evening-section" id="evening-card">
+    <div class="card-top evening">
+      <div class="card-top-left">
+        <div class="duration">≈ 20 minutes · 1–2 hours before sleep</div>
+        <h2>Evening Shutdown</h2>
+        <p class="purpose">Close open loops. Capture wins. Load tomorrow's runway so morning-you can launch without deciding anything.</p>
+      </div>
+      <div class="time-input-wrap">
+        <label for="evening-start">Start</label>
+        <input type="time" id="evening-start" value="21:00" onchange="recalcTimes('evening')">
+      </div>
+    </div>
+
+    <div class="progress-strip">
+      <div class="progress-bar"><div class="progress-fill ef" id="e-prog-fill"></div></div>
+      <div class="progress-pct" id="e-prog-txt">0 / 7</div>
+    </div>
+
+    <div class="timeline-body" id="evening-timeline">
+
+      <div class="phase-marker evening-phase">Phase 1 — Close the Day</div>
+
+      <div class="tl-row" onclick="toggle(this,'evening')" data-offset="0" data-dur="3">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Revenue action review</div>
+          <div class="tl-desc">Did you complete your #1 revenue action? Yes → write what happened and what you learned. No → no shame, write why and what blocked you. Every day teaches you something if you capture it.</div>
+          <div class="tl-tags"><span class="tl-tag dur">3 min</span><span class="tl-tag biz">Founder Intelligence</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'evening')" data-offset="3" data-dur="3">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Win logging — find three</div>
+          <div class="tl-desc">Write 3 wins from today, any size. "Sent the scary email." "Worked 2 focused hours." "Didn't spiral after the rejection." Pre-revenue is emotionally brutal — retrain your brain to register progress.</div>
+          <div class="tl-tags"><span class="tl-tag dur">3 min</span><span class="tl-tag brain">Anti-Negativity Bias</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'evening')" data-offset="6" data-dur="4">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Brain dump — clear every open loop</div>
+          <div class="tl-desc">Write down every lingering thought, task, worry, or idea still bouncing around your head. Don't organize, just dump. This externalizes the "unfinished task anxiety" that keeps ADHD brains up at 2am.</div>
+          <div class="tl-tags"><span class="tl-tag dur">3 min</span><span class="tl-tag adhd">Open Loop Closure</span></div>
+        </div>
+      </div>
+
+      <div class="phase-marker evening-phase">Phase 2 — Load Tomorrow</div>
+
+      <div class="tl-row" onclick="toggle(this,'evening')" data-offset="10" data-dur="3">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Pre-decide tomorrow's #1 revenue action</div>
+          <div class="tl-desc">Look at your brain dump + business priorities and choose tomorrow's most important task. Write it on a sticky note or at the top of your journal. Morning-you doesn't decide — evening-you already did.</div>
+          <div class="tl-tags"><span class="tl-tag dur">2 min</span><span class="tl-tag biz">Decision Pre-Load</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'evening')" data-offset="13" data-dur="3">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Set up the physical environment</div>
+          <div class="tl-desc">Lay out workout clothes. Fill a water bottle. Clear your desk. Open the doc/app you'll start with tomorrow. Charge your phone outside the bedroom. Each removes one micro-decision that could derail your morning.</div>
+          <div class="tl-tags"><span class="tl-tag dur">3 min</span><span class="tl-tag adhd">Friction Elimination</span></div>
+        </div>
+      </div>
+
+      <div class="phase-marker evening-phase">Phase 3 — Signal Shutdown</div>
+
+      <div class="tl-row" onclick="toggle(this,'evening')" data-offset="16" data-dur="1">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Say "Shutdown complete" out loud</div>
+          <div class="tl-desc">Sounds silly. Works. A verbal phrase tells your brain the workday is officially over. If a work thought intrudes later, respond internally: "That's been captured. I'll handle it tomorrow."</div>
+          <div class="tl-tags"><span class="tl-tag dur">5 sec</span><span class="tl-tag rest">Cognitive Boundary</span></div>
+        </div>
+      </div>
+
+      <div class="tl-row" onclick="toggle(this,'evening')" data-offset="17" data-dur="0">
+        <div class="tl-time"><span class="computed-time"></span></div>
+        <div class="tl-line"><div class="tl-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Transition to low-stimulation mode</div>
+          <div class="tl-desc">Dim lights. Phone on DND or in another room. No business content, no "quick" email checks. Read fiction, stretch, or talk to someone you love. Your nervous system needs a clear signal that survival mode is off.</div>
+          <div class="tl-tags"><span class="tl-tag rest">Nervous System Down-Reg</span></div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-l">Pre-Revenue Reality Check</div>
+        <p>The temptation to "just do one more thing" at night is strongest when you're pre-revenue because everything feels urgent. But exhausted founders make bad decisions, write bad copy, and burn out before they ship. <strong>Rest is a revenue strategy.</strong> Protect it like one.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetAll()">↻ Reset All Checkboxes</button>
+  </div>
+
+</div>
+
+<script>
+  // ─── Time formatting ───
+  function formatTime(h, m) {
+    const suffix = h >= 12 ? 'PM' : 'AM';
+    const displayH = h % 12 === 0 ? 12 : h % 12;
+    const displayM = String(m).padStart(2, '0');
+    return displayH + ':' + displayM + ' ' + suffix;
+  }
+
+  function recalcTimes(section) {
+    const input = document.getElementById(section + '-start');
+    const [startH, startM] = input.value.split(':').map(Number);
+    const container = document.getElementById(section + '-timeline');
+    const rows = container.querySelectorAll('.tl-row');
+
+    rows.forEach(row => {
+      const offset = parseInt(row.dataset.offset, 10);
+      let totalMin = startH * 60 + startM + offset;
+      const h = Math.floor(totalMin / 60) % 24;
+      const m = totalMin % 60;
+      row.querySelector('.computed-time').textContent = formatTime(h, m);
+    });
+  }
+
+  // ─── Toggle ───
+  function toggle(el, section) {
+    el.classList.toggle('checked');
+    updateProgress(section);
+  }
+
+  function updateProgress(section) {
+    const card = document.getElementById(section === 'morning' ? 'morning-card' : 'evening-card');
+    const all = card.querySelectorAll('.tl-row');
+    const done = card.querySelectorAll('.tl-row.checked');
+    const pct = (done.length / all.length) * 100;
+
+    const prefix = section === 'morning' ? 'm' : 'e';
+    document.getElementById(prefix + '-prog-fill').style.width = pct + '%';
+    document.getElementById(prefix + '-prog-txt').textContent = done.length + ' / ' + all.length;
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.tl-row.checked').forEach(r => r.classList.remove('checked'));
+    updateProgress('morning');
+    updateProgress('evening');
+  }
+
+  // ─── Init ───
+  recalcTimes('morning');
+  recalcTimes('evening');
+</script>
+
+</body>
+</html>
