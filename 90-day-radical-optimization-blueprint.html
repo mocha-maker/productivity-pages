@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>90-Day Radical Optimization Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f6f2ec;
+    --warm: #e8ddd0;
+    --accent: #c44d2a;
+    --accent-glow: #e8622f;
+    --teal: #2a7a6e;
+    --teal-light: #d4ece8;
+    --gold: #b8860b;
+    --gold-light: #fdf4dc;
+    --plum: #6b3a6b;
+    --plum-light: #f0e0f0;
+    --phase1: var(--teal);
+    --phase1-light: var(--teal-light);
+    --phase2: var(--gold);
+    --phase2-light: var(--gold-light);
+    --phase3: var(--plum);
+    --phase3-light: var(--plum-light);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    background: linear-gradient(160deg, #1a1a1a 0%, #2c1810 40%, #1a2a26 70%, #1a1a1a 100%);
+    color: white;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 20% 50%, rgba(196,77,42,0.15), transparent),
+      radial-gradient(ellipse 500px 500px at 80% 30%, rgba(42,122,110,0.12), transparent);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent-glow);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    max-width: 800px;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-glow);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.55);
+    max-width: 520px;
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+
+  .hero-tags {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .hero-tags span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 2.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    opacity: 0;
+    animation: fadeUp 1s 1.6s forwards, pulse 2.5s 2.5s infinite;
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 5rem 2rem 4rem;
+  }
+
+  /* PHILOSOPHY SECTION */
+  .philosophy {
+    margin-bottom: 5rem;
+    padding: 3rem;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.06);
+    position: relative;
+  }
+
+  .philosophy::before {
+    content: '"';
+    font-family: 'Instrument Serif', serif;
+    font-size: 8rem;
+    color: var(--accent);
+    opacity: 0.12;
+    position: absolute;
+    top: -1rem;
+    left: 1.5rem;
+    line-height: 1;
+  }
+
+  .philosophy h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .philosophy p {
+    font-size: 1.05rem;
+    color: #444;
+    max-width: 700px;
+  }
+
+  .philosophy p + p { margin-top: 1rem; }
+
+  .philosophy strong { color: var(--ink); font-weight: 600; }
+
+  /* SYSTEM ARCHITECTURE */
+  .system-arch {
+    margin-bottom: 5rem;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .section-header p {
+    color: #777;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .pillar {
+    background: white;
+    border-radius: 14px;
+    padding: 2rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .pillar:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  }
+
+  .pillar-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .pillar h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .pillar p {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.65;
+  }
+
+  /* DAILY PROTOCOL */
+  .daily-protocol {
+    margin-bottom: 5rem;
+  }
+
+  .protocol-timeline {
+    position: relative;
+    padding-left: 3.5rem;
+  }
+
+  .protocol-timeline::before {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--teal), var(--plum));
+    border-radius: 2px;
+  }
+
+  .time-block {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 1.5rem 1.75rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .time-block::before {
+    content: '';
+    position: absolute;
+    left: -2.85rem;
+    top: 1.75rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2.5px solid var(--accent);
+    background: var(--paper);
+  }
+
+  .time-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+  }
+
+  .time-block h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .time-block p {
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  .tag-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 100px;
+    background: var(--warm);
+    color: #666;
+  }
+
+  .tag.mind { background: var(--teal-light); color: var(--teal); }
+  .tag.body { background: #fde4dc; color: var(--accent); }
+  .tag.skill { background: var(--plum-light); color: var(--plum); }
+  .tag.adhd { background: var(--gold-light); color: var(--gold); }
+
+  /* PHASE SECTIONS */
+  .phase {
+    margin-bottom: 4rem;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .phase-header {
+    padding: 2.5rem 2.5rem 2rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phase-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .phase1 .phase-header { background: linear-gradient(135deg, #1e6b5f, #2a9a89); }
+  .phase2 .phase-header { background: linear-gradient(135deg, #8a6508, #c49a1c); }
+  .phase3 .phase-header { background: linear-gradient(135deg, #5a2d5a, #8b4f8b); }
+
+  .phase-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+
+  .phase-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 400;
+    position: relative;
+    line-height: 1.25;
+  }
+
+  .phase-header .phase-desc {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    margin-top: 0.6rem;
+    position: relative;
+    max-width: 550px;
+  }
+
+  .phase-body {
+    background: white;
+    padding: 2.5rem;
+  }
+
+  .week-group {
+    margin-bottom: 2.5rem;
+  }
+
+  .week-group:last-child { margin-bottom: 0; }
+
+  .week-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+
+  .phase1 .week-label { color: var(--teal); }
+  .phase2 .week-label { color: var(--gold); }
+  .phase3 .week-label { color: var(--plum); }
+
+  .action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .action-grid { grid-template-columns: 1fr; }
+  }
+
+  .action-card {
+    padding: 1.25rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+    background: var(--paper);
+  }
+
+  .action-card h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .action-card h4 .emoji {
+    font-size: 1rem;
+  }
+
+  .action-card p {
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.65;
+  }
+
+  .action-card .freq {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: #999;
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* WEEKLY RHYTHM */
+  .weekly-rhythm {
+    margin-bottom: 5rem;
+  }
+
+  .rhythm-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .rhythm-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .day-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+  }
+
+  .day-card:hover { transform: translateY(-2px); }
+
+  .day-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 0.5rem;
+  }
+
+  .day-emoji {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .day-focus {
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .day-detail {
+    font-size: 0.65rem;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  /* ADHD TOOLKIT */
+  .toolkit {
+    margin-bottom: 5rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, #fdf4dc, #fef9ec);
+    border-radius: 20px;
+    border: 1px solid rgba(184,134,11,0.15);
+  }
+
+  .toolkit h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .toolkit .subtitle {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+
+  .toolkit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .toolkit-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(184,134,11,0.1);
+  }
+
+  .toolkit-item h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--gold);
+  }
+
+  .toolkit-item p {
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.65;
+  }
+
+  /* METRICS */
+  .metrics {
+    margin-bottom: 5rem;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.75rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    text-align: center;
+  }
+
+  .metric-value {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .metric-label {
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  /* CLOSING */
+  .closing {
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .closing h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .closing p {
+    color: #666;
+    max-width: 500px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+  }
+
+  .rule {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent);
+    margin: 3rem 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.5; }
+  }
+
+  /* PRINT */
+  @media print {
+    .hero { min-height: auto; padding: 2rem; }
+    .phase, .pillar, .day-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">A 90-Day Operating System</div>
+  <h1>Radical <em>Optimization</em> Blueprint</h1>
+  <p class="hero-sub">A precision-built performance architecture designed for the ADHD brain — where novelty fuels consistency and structure liberates creativity.</p>
+  <div class="hero-tags">
+    <span>ENFP × ADHD</span>
+    <span>Self-Mastery</span>
+    <span>Physical Wellness</span>
+    <span>Skill Acceleration</span>
+  </div>
+  <div class="scroll-cue">↓ Scroll to begin</div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- PHILOSOPHY -->
+  <div class="philosophy">
+    <h2>Core Design Philosophy</h2>
+    <p>This isn't a rigid planner that falls apart on Day 4. It's engineered around how <strong>your brain actually operates</strong> — novelty-seeking, interest-driven, emotionally responsive, and capable of extraordinary hyperfocus when the conditions are right.</p>
+    <p>Every protocol below uses <strong>dopamine-aware sequencing</strong>, variable rewards, and strategic friction elimination to make momentum feel effortless. We replace willpower (a depleting resource your brain under-produces anyway) with <strong>environmental design, identity architecture, and micro-commitment stacking.</strong></p>
+    <p>Three phases. Each one shifts in intensity and focus to keep your ENFP brain engaged instead of bored. <strong>Consistency isn't about never missing — it's about never missing twice.</strong></p>
+  </div>
+
+  <!-- 5 PILLARS -->
+  <div class="system-arch">
+    <div class="section-header">
+      <h2>The Five Operating Pillars</h2>
+      <p>Every daily and weekly action maps to one of these pillars.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon" style="background: var(--teal-light); color: var(--teal);">🧠</div>
+        <h3>Mindset Architecture</h3>
+        <p>Rewire automatic thought patterns using cognitive restructuring, identity-based habit loops, and daily neural priming — replacing self-criticism with self-command.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon" style="background: #fde4dc; color: var(--accent);">⚡</div>
+        <h3>Physical Sovereignty</h3>
+        <p>Optimize sleep, movement, and nutrition to stabilize dopamine and norepinephrine — the two neurotransmitters ADHD brains chronically under-regulate.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon" style="background: var(--plum-light); color: var(--plum);">🎯</div>
+        <h3>Skill Velocity</h3>
+        <p>Accelerate learning using deliberate practice windows, interleaving, and the 85% difficulty sweet spot — where challenge meets capability.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon" style="background: var(--gold-light); color: var(--gold);">🔄</div>
+        <h3>Momentum Systems</h3>
+        <p>Build anti-procrastination infrastructure: 2-minute rules, activation rituals, body-doubling, temptation bundling, and friction-free task transitions.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon" style="background: #e8e8e8; color: #555;">🛡️</div>
+        <h3>Recovery Protocol</h3>
+        <p>Prevent burnout cycles with scheduled deload periods, emotional regulation tools, and energy auditing — because sustainability is the ultimate performance hack.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- DAILY PROTOCOL -->
+  <div class="daily-protocol">
+    <div class="section-header">
+      <h2>The Daily Protocol</h2>
+      <p>Your non-negotiable operating rhythm. Adapt times to your schedule, but preserve the sequence.</p>
+    </div>
+    <div class="protocol-timeline">
+
+      <div class="time-block">
+        <div class="time-label">6:30 – 7:00 AM · Wake Protocol</div>
+        <h4>Neural Ignition Sequence</h4>
+        <p>No phone for 20 minutes. Sunlight exposure within 10 minutes of waking (even overcast — step outside or stand at a bright window). Drink 500ml water with a pinch of salt. Perform 2 minutes of deliberate cold exposure (cold water on face/wrists or cold shower finish). This front-loads cortisol and dopamine to their optimal morning peaks.</p>
+        <div class="tag-row">
+          <span class="tag body">Dopamine Reset</span>
+          <span class="tag adhd">ADHD-Critical</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">7:00 – 7:20 AM · Mindset Prime</div>
+        <h4>Identity Calibration</h4>
+        <p>5-minute journal: write 1 identity statement ("I am someone who…"), 1 intention for the day, and 1 thing you're grateful for. Then 10 minutes of focused breathwork or meditation — use guided if your brain resists silence (Insight Timer or Headspace). This pre-activates the prefrontal cortex before demands hit.</p>
+        <div class="tag-row">
+          <span class="tag mind">Mindset</span>
+          <span class="tag adhd">Prefrontal Activation</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">7:20 – 8:00 AM · Movement Block</div>
+        <h4>Physical Activation</h4>
+        <p>30–40 min movement, alternating: strength training (3×/week), zone 2 cardio like walking or cycling (2×/week), mobility/yoga (2×/week). Strength work should prioritize compound lifts — squats, deadlifts, presses, rows. Movement before cognitive work increases BDNF and primes executive function for 2–4 hours.</p>
+        <div class="tag-row">
+          <span class="tag body">Physical</span>
+          <span class="tag mind">BDNF Boost</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">8:30 – 11:30 AM · Deep Work Block</div>
+        <h4>Peak Cognitive Window</h4>
+        <p>This is your highest-leverage time. Use the <strong>Pomodoro Variation</strong>: 35 min work / 5 min rest × 3 rounds, then a 15 min break. Work on your #1 priority skill or project — nothing else. Phone in another room or locked in a timed box. Use a visual timer (Time Timer app). Put on the same focus playlist every session to build a Pavlovian work trigger.</p>
+        <div class="tag-row">
+          <span class="tag skill">Skill Velocity</span>
+          <span class="tag adhd">Hyperfocus Window</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">12:00 – 12:45 PM · Refuel</div>
+        <h4>Strategic Nutrition</h4>
+        <p>High-protein lunch (30g+ protein) with complex carbs and healthy fats. Prioritize omega-3 rich foods (salmon, sardines, walnuts) — these directly support dopamine receptor function. Avoid high-glycemic spikes that will crash your afternoon. Eat mindfully, screen-free if possible.</p>
+        <div class="tag-row">
+          <span class="tag body">Nutrition</span>
+          <span class="tag adhd">Dopamine Support</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">1:00 – 3:30 PM · Execution Block</div>
+        <h4>Task Batching &amp; Admin</h4>
+        <p>Lower-friction tasks: emails, planning, calls, errands, learning content (courses, reading, tutorials). Use <strong>task batching</strong> — group similar tasks together to reduce the transition cost that destroys ADHD productivity. Energy dip is normal here; work WITH it by doing tasks that need less creative horsepower.</p>
+        <div class="tag-row">
+          <span class="tag">Momentum</span>
+          <span class="tag adhd">Energy-Aware</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">3:30 – 4:00 PM · Recharge</div>
+        <h4>Afternoon Reset</h4>
+        <p>10-min walk outside (non-negotiable — sunlight resets circadian rhythm for better sleep later). Optional: 10–20 min NSDR (Non-Sleep Deep Rest) or Yoga Nidra — shown to increase dopamine by up to 65%. Then a small protein-rich snack.</p>
+        <div class="tag-row">
+          <span class="tag body">Recovery</span>
+          <span class="tag adhd">Dopamine Restore</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">4:00 – 5:30 PM · Creative / Skill Sprint</div>
+        <h4>Second Wind Window</h4>
+        <p>ENFP brains often get a second creative surge in the late afternoon. Use this for creative work, skill practice, or passion projects. This block is deliberately less rigid — follow your energy. If hyperfocus kicks in, ride it. If it doesn't, do lighter skill review or creative exploration.</p>
+        <div class="tag-row">
+          <span class="tag skill">Skill</span>
+          <span class="tag mind">Creative Flow</span>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-label">8:30 – 9:00 PM · Wind-Down Ritual</div>
+        <h4>Evening Shutdown Protocol</h4>
+        <p>Write tomorrow's <strong>Top 3 priorities</strong> (closes open loops so your brain can release them). 5-minute reflection: What went well? What do I adjust? Then transition to low-stimulation activities — dim lights, no blue light, gentle stretching, reading fiction. Aim for sleep by 10:30 PM. Consistent sleep timing is the single highest-ROI habit for ADHD.</p>
+        <div class="tag-row">
+          <span class="tag mind">Mindset</span>
+          <span class="tag body">Sleep Hygiene</span>
+          <span class="tag adhd">Executive Function</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- WEEKLY RHYTHM -->
+  <div class="weekly-rhythm">
+    <div class="section-header">
+      <h2>Weekly Rhythm Map</h2>
+      <p>Each day has a thematic anchor — flexible enough to shift, structured enough to hold.</p>
+    </div>
+    <div class="rhythm-grid">
+      <div class="day-card">
+        <div class="day-name">Mon</div>
+        <div class="day-emoji">🔥</div>
+        <div class="day-focus">Ignition</div>
+        <div class="day-detail">Weekly planning. Hardest task first. Strength training.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Tue</div>
+        <div class="day-emoji">🧠</div>
+        <div class="day-focus">Deep Skill</div>
+        <div class="day-detail">Extended deep work. Skill practice. Zone 2 cardio.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Wed</div>
+        <div class="day-emoji">⚡</div>
+        <div class="day-focus">Momentum</div>
+        <div class="day-detail">Batch tasks. Clear inbox. Strength training.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Thu</div>
+        <div class="day-emoji">🎨</div>
+        <div class="day-focus">Create</div>
+        <div class="day-detail">Creative projects. Experimentation. Mobility/yoga.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Fri</div>
+        <div class="day-emoji">🎯</div>
+        <div class="day-focus">Finish</div>
+        <div class="day-detail">Complete open items. Strength training. Weekly review.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Sat</div>
+        <div class="day-emoji">🌿</div>
+        <div class="day-focus">Explore</div>
+        <div class="day-detail">Passion projects. Social time. Light movement.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Sun</div>
+        <div class="day-emoji">🛁</div>
+        <div class="day-focus">Restore</div>
+        <div class="day-detail">Rest. Meal prep. Nature. Plan ahead gently.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- PHASE 1 -->
+  <div class="phase phase1">
+    <div class="phase-header">
+      <div class="phase-number">Phase I · Days 1–30</div>
+      <h2>Foundation Protocol</h2>
+      <p class="phase-desc">Install the operating system. Your only job this month is to build the floor — not reach the ceiling. Focus on showing up, not on intensity.</p>
+    </div>
+    <div class="phase-body">
+
+      <div class="week-group">
+        <div class="week-label">Weeks 1–2 · Activation</div>
+        <div class="action-grid">
+          <div class="action-card">
+            <h4><span class="emoji">🧠</span> Mindset</h4>
+            <p>Begin daily 5-min identity journaling. Write your "future self" letter on Day 1 — who you are on Day 90. Read it every Sunday. Start with 5 min guided meditation daily (build to 10 by Week 3).</p>
+            <div class="freq">Daily · 15 min total</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">⚡</span> Physical</h4>
+            <p>Establish consistent wake time (±30 min, even weekends). Begin morning sunlight protocol. Start with 20-min walks if you don't exercise currently — no pressure for gym yet. Track sleep with a simple log or app.</p>
+            <div class="freq">Daily · 20–30 min</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🎯</span> Skills</h4>
+            <p>Choose your ONE 90-day skill priority. Define what "Level 1 → Level 2" looks like concretely. Schedule 30-min daily practice blocks. Use the "learning playlist" ritual — same music each time to create a state trigger.</p>
+            <div class="freq">Daily · 30 min</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🔄</span> Systems</h4>
+            <p>Set up your physical environment: clear workspace, phone charging station outside bedroom, visual timer purchased. Install website blocker for deep work hours. Create a "launch pad" — one place where tomorrow's essentials go each night.</p>
+            <div class="freq">One-time setup + daily 5 min</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-group">
+        <div class="week-label">Weeks 3–4 · Stabilization</div>
+        <div class="action-grid">
+          <div class="action-card">
+            <h4><span class="emoji">🧠</span> Mindset</h4>
+            <p>Introduce cognitive reframing: when you catch a negative automatic thought, write the thought, label the distortion (catastrophizing, all-or-nothing, etc.), and rewrite it. Track 2 reframes per day in your journal.</p>
+            <div class="freq">Daily · woven into journaling</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">⚡</span> Physical</h4>
+            <p>Transition to the full movement protocol: 3× strength, 2× cardio, 2× mobility. Begin the nutrition upgrade — add one high-protein meal per day and reduce processed sugar. Introduce evening wind-down ritual.</p>
+            <div class="freq">Daily · 30–40 min movement</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🎯</span> Skills</h4>
+            <p>Increase practice to 45 min daily. Introduce interleaving: instead of drilling one sub-skill, alternate between 2–3 related sub-skills within the session. This feels harder but produces 30–50% better retention.</p>
+            <div class="freq">Daily · 45 min</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🔄</span> Systems</h4>
+            <p>Run your first Weekly Review (Fridays): audit what worked, what didn't, energy patterns, and adjust next week's plan. Start temptation bundling — pair a "have-to" task with something you enjoy (podcast + cleaning, etc.).</p>
+            <div class="freq">Weekly · 30 min review</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase phase2">
+    <div class="phase-header">
+      <div class="phase-number">Phase II · Days 31–60</div>
+      <h2>Acceleration Engine</h2>
+      <p class="phase-desc">The foundation is set. Now we increase output, deepen practice, and introduce advanced protocols. This is where transformation becomes visible.</p>
+    </div>
+    <div class="phase-body">
+
+      <div class="week-group">
+        <div class="week-label">Weeks 5–6 · Intensification</div>
+        <div class="action-grid">
+          <div class="action-card">
+            <h4><span class="emoji">🧠</span> Mindset</h4>
+            <p>Begin the "Inner Mentor" practice: spend 5 minutes daily visualizing your wisest future self giving you advice about today's challenge. Introduce one weekly fear-facing challenge — one small thing that makes you uncomfortable (cold call, public post, boundary conversation).</p>
+            <div class="freq">Daily visualization + weekly challenge</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">⚡</span> Physical</h4>
+            <p>Add progressive overload to strength training (increase weight/reps by 2.5–5% weekly). Begin tracking macros loosely — aim for 1.6g protein per kg bodyweight. Introduce 1–2 min cold shower finishes for dopamine and resilience training.</p>
+            <div class="freq">Daily · 40 min movement</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🎯</span> Skills</h4>
+            <p>Extend deep work block to 2.5 hours. Introduce the "teaching protocol" — explain what you learned each day to someone (or record a voice note to yourself). Teaching is the highest-retention learning strategy. Begin seeking feedback from someone more skilled.</p>
+            <div class="freq">Daily · 60 min focused practice</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🔄</span> Systems</h4>
+            <p>Implement "Decision Fatigue Prevention": plan outfits, meals, and workout routines for the whole week on Sunday. Create "If-Then" protocols for common failure points (e.g., "If I feel resistance to starting, I will open my laptop and just read one line of yesterday's notes").</p>
+            <div class="freq">Sunday prep + daily if-then</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-group">
+        <div class="week-label">Weeks 7–8 · Momentum Lock</div>
+        <div class="action-grid">
+          <div class="action-card">
+            <h4><span class="emoji">🧠</span> Mindset</h4>
+            <p>Deepen meditation to 15 min. Begin a weekly "belief audit": identify one limiting belief, gather evidence against it, and practice the new belief for a week. Introduce gratitude expansion — 3 detailed gratitudes with sensory specifics each morning.</p>
+            <div class="freq">Daily 15 min + weekly audit</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">⚡</span> Physical</h4>
+            <p>Introduce one "challenge workout" per week that pushes your edge (a longer run, heavier lift, a new class). Optimize sleep environment: blackout curtains, room below 19°C/67°F, magnesium glycinate before bed. No caffeine after 1 PM.</p>
+            <div class="freq">Daily + 1 weekly challenge</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🎯</span> Skills</h4>
+            <p>Complete your first "milestone project" — a tangible output that proves your skill growth (a portfolio piece, a presentation, a product, a performance). Share it publicly or with a trusted audience. This creates external accountability and solidifies learning.</p>
+            <div class="freq">Ongoing → complete by Day 56</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🔄</span> Systems</h4>
+            <p>Run a "Mid-Point Audit": compare your current daily execution to your Day 1 letter. Celebrate progress (ADHD brains need explicit reward recognition). Adjust Phase 3 goals based on what you've learned about your capacity.</p>
+            <div class="freq">One-time deep review · Day 45</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase phase3">
+    <div class="phase-header">
+      <div class="phase-number">Phase III · Days 61–90</div>
+      <h2>Integration &amp; Mastery</h2>
+      <p class="phase-desc">Shift from building habits to refining your personal operating system. The goal: make this feel like who you are, not something you do.</p>
+    </div>
+    <div class="phase-body">
+
+      <div class="week-group">
+        <div class="week-label">Weeks 9–10 · Refinement</div>
+        <div class="action-grid">
+          <div class="action-card">
+            <h4><span class="emoji">🧠</span> Mindset</h4>
+            <p>Introduce "values alignment checks" — start each week by asking: are my actions this week aligned with the person I'm becoming? Begin a long-form journaling session once a week (20 min, stream of consciousness). Reduce external validation seeking; practice self-sourced confidence.</p>
+            <div class="freq">Daily + weekly deep journal</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">⚡</span> Physical</h4>
+            <p>Take a planned deload week in Week 10 — reduce workout intensity by 40% to allow full recovery and prevent overtraining. Focus on mobility, walks, and play. Refine nutrition based on 8 weeks of data. Notice which foods support your best energy and cognition.</p>
+            <div class="freq">Adaptive based on body signals</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🎯</span> Skills</h4>
+            <p>Begin your capstone project — the definitive proof of 90 days of skill acceleration. This should stretch you to approximately 85% of your current capacity (hard enough to grow, achievable enough to complete). Plan it in Week 9, execute in Weeks 10–12.</p>
+            <div class="freq">Daily dedicated block</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🔄</span> Systems</h4>
+            <p>Audit your full system: which habits are automatic (keep as-is), which need a cue refresh (change the trigger), which aren't serving you (drop without guilt). Begin designing your "post-90-day" operating system — what stays, what evolves.</p>
+            <div class="freq">Weekly system review</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-group">
+        <div class="week-label">Weeks 11–12 · Consolidation</div>
+        <div class="action-grid">
+          <div class="action-card">
+            <h4><span class="emoji">🧠</span> Mindset</h4>
+            <p>Write your "Day 90 Letter" — compare it to your Day 1 letter. Document your transformation. Create your personal principles document: 5–7 non-negotiable rules that define how you operate going forward. This is your identity anchor.</p>
+            <div class="freq">Days 85–90</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">⚡</span> Physical</h4>
+            <p>Test your fitness benchmarks against Day 1 baselines (strength, cardio endurance, flexibility, sleep quality). Celebrate gains. Lock in the movement schedule that you can sustain indefinitely — not the hardest version, the most consistent version.</p>
+            <div class="freq">Benchmark testing · Day 85</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🎯</span> Skills</h4>
+            <p>Complete and present your capstone project. Get external feedback. Define your next 90-day skill target. The compounding has begun — your learning velocity is now measurably faster than Day 1.</p>
+            <div class="freq">Complete by Day 88</div>
+          </div>
+          <div class="action-card">
+            <h4><span class="emoji">🔄</span> Systems</h4>
+            <p>Finalize your sustainable "Maintenance Mode" protocol — the simplified daily system you'll carry forward. It should be 60% of the intensity of this program but preserve the highest-leverage habits. Schedule your next 90-day cycle.</p>
+            <div class="freq">Day 89–90</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ADHD TOOLKIT -->
+  <div class="toolkit">
+    <h2>The ADHD-ENFP Survival Toolkit</h2>
+    <p class="subtitle">Proven strategies for the specific failure modes your brain is wired for.</p>
+    <div class="toolkit-grid">
+      <div class="toolkit-item">
+        <h4>⏱ The 2-Minute Bridge</h4>
+        <p>When you feel resistance, commit to only 2 minutes. Your brain's initiation barrier is the bottleneck — not your ability. Once you start, momentum carries you 80% of the time. If it doesn't after 2 minutes, switch to a different priority guilt-free.</p>
+      </div>
+      <div class="toolkit-item">
+        <h4>🎵 Pavlovian Playlists</h4>
+        <p>Assign a specific playlist or album to each work mode (deep focus, creative, admin). Play it ONLY during that mode. Within 2 weeks, your brain will associate the music with the state, making transitions almost automatic.</p>
+      </div>
+      <div class="toolkit-item">
+        <h4>👯 Body Doubling</h4>
+        <p>Work alongside someone (in-person or virtually via Focusmate or a co-working stream). The social presence activates accountability circuits your brain needs for non-urgent tasks. This is not a crutch — it's a legitimate neurological tool.</p>
+      </div>
+      <div class="toolkit-item">
+        <h4>🧊 Dopamine Menu</h4>
+        <p>Create a written list of healthy dopamine sources organized by effort: low-effort (favorite tea, 5-min walk, a song), medium-effort (call a friend, cook something new), high-effort (workout, creative project). When cravings for cheap dopamine hit, consult the menu first.</p>
+      </div>
+      <div class="toolkit-item">
+        <h4>🪤 Friction Engineering</h4>
+        <p>Add friction to bad habits (delete social apps, use app timers, put junk food on a high shelf). Remove friction from good habits (sleep in workout clothes, set up workspace the night before, pre-load your meditation app). Small barriers change everything.</p>
+      </div>
+      <div class="toolkit-item">
+        <h4>🔁 The "Never Miss Twice" Rule</h4>
+        <p>Missing one day is human. Missing two is the start of a new pattern. If you miss a workout, the next day's workout is sacred — even if it's 10 minutes. This single rule prevents the all-or-nothing spirals ADHD brains are prone to.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics">
+    <div class="section-header">
+      <h2>90-Day Target Metrics</h2>
+      <p>Concrete benchmarks to track your transformation.</p>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-value">80%</div>
+        <div class="metric-label">Daily protocol adherence</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">60h</div>
+        <div class="metric-label">Deep skill practice hours</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">7.5h</div>
+        <div class="metric-label">Avg nightly sleep</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">1</div>
+        <div class="metric-label">Capstone project shipped</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <h2>This isn't about becoming someone else.</h2>
+    <p>It's about building the infrastructure that lets who you already are — curious, creative, capable — finally operate at full power. Day 1 starts when you decide it does.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
