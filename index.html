@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f6f2ec;
+    --warm: #e8ddd0;
+    --accent: #c44d2a;
+    --accent-glow: #e8622f;
+    --teal: #2a7a6e;
+    --gold: #b8860b;
+    --plum: #6b3a6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 15px;
+    min-height: 100vh;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 5rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(165deg, #1a1a1a 0%, #2c1810 45%, #1a2a26 75%, #1a1a1a 100%);
+    color: white;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 500px 350px at 25% 60%, rgba(196,77,42,0.13), transparent),
+      radial-gradient(ellipse 400px 400px at 75% 30%, rgba(42,122,110,0.1), transparent);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent-glow);
+    margin-bottom: 1.25rem;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 400;
+    line-height: 1.1;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-glow);
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.45);
+    margin-top: 0.75rem;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── MAIN ─── */
+  .main {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* ─── CATEGORY ─── */
+  .category {
+    margin-bottom: 2.75rem;
+  }
+
+  .category-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 0.85rem;
+    padding-left: 0.15rem;
+  }
+
+  /* ─── LINK CARD ─── */
+  .link-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.05);
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    border-color: rgba(0,0,0,0.1);
+  }
+
+  .link-card:active { transform: translateY(-1px); }
+
+  /* Colored left accent */
+  .link-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 14px 0 0 14px;
+    background: var(--card-accent, var(--accent));
+  }
+
+  /* Icon bubble */
+  .link-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: var(--card-bg, var(--warm));
+    flex-shrink: 0;
+  }
+
+  .link-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .link-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .link-desc {
+    font-size: 0.78rem;
+    color: #888;
+    line-height: 1.5;
+    margin-top: 0.1rem;
+  }
+
+  .link-arrow {
+    font-size: 1.1rem;
+    color: #ccc;
+    transition: color 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .link-card:hover .link-arrow {
+    color: var(--card-accent, var(--accent));
+    transform: translateX(3px);
+  }
+
+  /* ─── Color Variants ─── */
+  .link-card.orange  { --card-accent: var(--accent); --card-bg: rgba(196,77,42,0.08); }
+  .link-card.teal    { --card-accent: var(--teal);   --card-bg: rgba(42,122,110,0.08); }
+  .link-card.gold    { --card-accent: var(--gold);   --card-bg: rgba(184,134,11,0.08); }
+  .link-card.plum    { --card-accent: var(--plum);   --card-bg: rgba(107,58,107,0.08); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    color: #bbb;
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 500px) {
+    .link-card { padding: 1rem 1.15rem; gap: 1rem; }
+    .link-icon { width: 38px; height: 38px; min-width: 38px; font-size: 1.05rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Personal Operating System</div>
+  <h1>Command <em>Center</em></h1>
+  <p class="hero-sub">Everything in one place. Click to open.</p>
+</div>
+
+<div class="main">
+
+  <!-- ═══════════════════════════════════════════
+       CATEGORY: PERFORMANCE SYSTEMS
+       ═══════════════════════════════════════════ -->
+  <div class="category">
+    <div class="category-label">Performance Systems</div>
+    <div class="link-grid">
+
+      <!-- LINK CARD — copy this block to add a new page -->
+      <a href="./90-day-radical-optimization-blueprint.html" class="link-card teal">
+        <div class="link-icon">🗺️</div>
+        <div class="link-body">
+          <div class="link-title">90-Day Radical Optimization Blueprint</div>
+          <div class="link-desc">Full roadmap — phases, daily protocol, weekly rhythm, ADHD toolkit</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <!-- END LINK CARD -->
+
+      <!-- LINK CARD -->
+      <a href="./daily-bookends-timeline.html" class="link-card orange">
+        <div class="link-icon">⏱️</div>
+        <div class="link-body">
+          <div class="link-title">Daily Bookends — Timeline Checklists</div>
+          <div class="link-desc">Morning ignition + evening shutdown with adjustable start times</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <!-- END LINK CARD -->
+
+    </div>
+  </div>
+
+  <!--
+  ═══════════════════════════════════════════════════════════
+  HOW TO ADD MORE PAGES:
+
+  1. Upload your new .html file to the same GitHub repo
+  2. Copy a LINK CARD block (between the "LINK CARD" comments above)
+  3. Paste it inside the <div class="link-grid"> of the right category
+  4. Update:
+       - href="./your-new-file.html"
+       - The emoji in .link-icon
+       - The title in .link-title
+       - The description in .link-desc
+       - The color class: orange | teal | gold | plum
+  5. Push to GitHub. Done.
+
+  To add a NEW CATEGORY, copy this block:
+
+  <div class="category">
+    <div class="category-label">Your Category Name</div>
+    <div class="link-grid">
+
+      <a href="./your-file.html" class="link-card gold">
+        <div class="link-icon">📄</div>
+        <div class="link-body">
+          <div class="link-title">Page Title</div>
+          <div class="link-desc">Short description of what this page is</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+
+  ═══════════════════════════════════════════════════════════
+  -->
+
+</div>
+
+<div class="footer">Built with intention</div>
+
+</body>
+</html>
